@@ -46,12 +46,36 @@ int main() {
     LeftFront.spin(vex::directionType::fwd, (primaryController.Axis3.value()) + primaryController.Axis4.value(), vex::velocityUnits::rpm);
     LeftBack.spin(vex::directionType::fwd, (primaryController.Axis3.value()) + primaryController.Axis4.value(), vex::velocityUnits::rpm);
     //These if statements are for the intakes. I think there is a better way to do this
-    if (secondaryController.ButtonL1.pressing()) {
-      //L1 intakes the "claws"
+    if (secondaryController.ButtonR1.pressing()) {
+      //R1 intakes the "claws"
       LeftIntake.spin(vex::directionType::fwd);
       RightIntake.spin(vex::directionType::fwd);
     } else {
-      
+      LeftIntake.spin(vex::directionType::fwd, 0, vex::velocityUnits::rpm);
+      RightIntake.spin(vex::directionType::fwd, 0, vex::velocityUnits::rpm);
+    }
+    
+    if (secondaryController.ButtonR2.pressing()) {
+      //R2 outtakes the "claws"
+      LeftIntake.spin(vex::directionType::rev);
+      RightIntake.spin(vex::directionType::rev);
+    } else {
+      LeftIntake.spin(vex::directionType::fwd, 0, vex::velocityUnits::rpm);
+      RightIntake.spin(vex::directionType::fwd, 0, vex::velocityUnits::rpm);
+    }
+
+    if (secondaryController.ButtonL1.pressing()) {
+      //L1 intakes the "wheels"
+      Intake.spin(vex::directionType::fwd);
+    } else {
+      Intake.spin(vex::directionType::fwd, 0, vex::velocityUnits::rpm);
+    }
+
+    if (secondaryController.ButtonL2.pressing()) {
+      //L2 outtakes the "wheels"
+      Intake.spin(vex::directionType::rev);
+    } else {
+      Intake.spin(vex::directionType::fwd, 0, vex::velocityUnits::rpm);
     }
   }
   //Intake.spin(vex::directionType::fwd);
