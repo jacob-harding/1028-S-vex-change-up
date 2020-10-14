@@ -87,10 +87,14 @@ void usercontrol(void) {
     // update your motors, etc.
     // ........................................................................
 
-    RightFront.spin(vex::directionType::fwd, (primaryController.Axis3.value() - primaryController.Axis4.value()), vex::velocityUnits::rpm);
-    RightBack.spin(vex::directionType::fwd, (primaryController.Axis3.value()) - primaryController.Axis4.value(), vex::velocityUnits::rpm);
-    LeftFront.spin(vex::directionType::fwd, (primaryController.Axis3.value()) + primaryController.Axis4.value(), vex::velocityUnits::rpm);
-    LeftBack.spin(vex::directionType::fwd, (primaryController.Axis3.value()) + primaryController.Axis4.value(), vex::velocityUnits::rpm);
+    RightFront.spin(vex::directionType::fwd, (primaryController.Axis3.value()
+     - primaryController.Axis1.value()), vex::velocityUnits::rpm);
+    RightBack.spin(vex::directionType::fwd, (primaryController.Axis3.value())
+     - primaryController.Axis1.value(), vex::velocityUnits::rpm);
+    LeftFront.spin(vex::directionType::fwd, (primaryController.Axis3.value())
+     + primaryController.Axis1.value(), vex::velocityUnits::rpm);
+    LeftBack.spin(vex::directionType::fwd, (primaryController.Axis3.value())
+     + primaryController.Axis1.value(), vex::velocityUnits::rpm);
 
     //These if statements are for the intakes. 
     
@@ -103,7 +107,8 @@ void usercontrol(void) {
       //L2 outtakes the "claws"
       Intake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
       
-    } else {
+    }
+    else {
       Intake.spin(vex::directionType::fwd, 0, vex::velocityUnits::rpm);
       
     }
@@ -117,7 +122,8 @@ void usercontrol(void) {
       //L2 outtakes the "wheels"
       RightIntake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
       LeftIntake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
-    } else {
+    }
+    else {
      RightIntake.spin(vex::directionType::fwd, 0, vex::velocityUnits::rpm);
      LeftIntake.spin(vex::directionType::fwd, 0, vex::velocityUnits::rpm);
       
