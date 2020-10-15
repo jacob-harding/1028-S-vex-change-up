@@ -31,6 +31,98 @@ vex::motor Intake = vex::motor(vex::PORT10);
 vex::controller primaryController (vex::controllerType::primary);
 vex::controller secondaryController (vex::controllerType::partner);
 
+
+void drive (float time, timeUnits units, bool reverse=false) {
+  if (reverse) {
+    RightFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+    RightBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+    LeftFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+    LeftBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  } else {
+    RightFront.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+    RightBack.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+    LeftFront.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+    LeftBack.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  }
+  wait(time, units);
+  RightFront.stop();
+  RightBack.stop();
+  LeftFront.stop();
+  LeftBack.stop();
+}
+
+void drive (bool reverse=false) {
+  if (reverse) {
+    RightFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+    RightBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+    LeftFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+    LeftBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  } else {
+    RightFront.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+    RightBack.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+    LeftFront.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+    LeftBack.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  }
+}
+
+void driveStop () {
+  RightFront.stop();
+  RightBack.stop();
+  LeftFront.stop();
+  LeftBack.stop();
+}
+
+void intakeClaws (float time, timeUnits units, bool reverse=false) {
+  if (reverse) {
+    RightIntake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+    LeftIntake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  } else {
+    RightIntake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+    LeftIntake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  }
+  wait(time, units);
+  RightIntake.stop();
+  LeftIntake.stop();
+}
+
+void intakeClaws (bool reverse=false) {
+  if (reverse) {
+    RightIntake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+    LeftIntake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  } else {
+    RightIntake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+    LeftIntake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  }
+}
+
+void clawsStop () {
+  RightIntake.stop();
+  LeftIntake.stop();
+}
+
+void intakeWheels (float time, timeUnits units, bool reverse=false) {
+  if (reverse) {
+    Intake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  } else {
+    Intake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  }
+  wait(time, units);
+  Intake.stop();
+}
+
+void intakeWheels (bool reverse=false) {
+  if (reverse) {
+    Intake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  } else {
+    Intake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  }
+}
+
+void wheelsStop () {
+  Intake.stop();
+}
+
+
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
 /*                                                                           */
@@ -63,6 +155,10 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
+
+  Intake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  wait(200, vex::timeUnits::msec);
+  Intake.stop();
 }
 
 /*---------------------------------------------------------------------------*/
