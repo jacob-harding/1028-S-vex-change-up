@@ -122,6 +122,44 @@ void wheelsStop () {
   Intake.stop();
 }
 
+void turnRight (float time, timeUnits units) {
+  RightFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  RightBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  LeftFront.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  LeftBack.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  wait(time, units);
+  RightFront.stop();
+  RightBack.stop();
+  LeftFront.stop();
+  LeftBack.stop();
+}
+
+void turnRight () {
+  RightFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  RightBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  LeftFront.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  LeftBack.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+}
+
+void turnLeft (float time, timeUnits units) {
+  RightFront.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  RightBack.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  LeftFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  LeftBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  wait(time, units);
+  RightFront.stop();
+  RightBack.stop();
+  LeftFront.stop();
+  LeftBack.stop();
+}
+
+void turnLeft () {
+  RightFront.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  RightBack.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+  LeftFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+  LeftBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+}
+
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
