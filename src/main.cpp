@@ -32,6 +32,7 @@ vex::controller primaryController (vex::controllerType::primary);
 vex::controller secondaryController (vex::controllerType::partner);
 
 
+
 void drive (float time, timeUnits units, bool reverse=false) {
   if (reverse) {
     RightFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
@@ -50,7 +51,17 @@ void drive (float time, timeUnits units, bool reverse=false) {
   LeftFront.stop();
   LeftBack.stop();
 }
-
+void moveBackward(int travelDistance){
+    int currentRotation = (RightFront.rotation(vex::rotationUnits::deg) + LeftFront.rotation(vex::rotationUnits::deg) + RightBack.rotation(vex::rotationUnits::deg) + LeftBack.rotation(vex::rotationUnits::deg))/4;
+    int goalRotation = currentRotation - travelDistance;
+    while(currentRotation > goalRotation){
+      RightFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+      RightBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+      LeftFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+      LeftBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+      currentRotation = (RightFront.rotation(vex::rotationUnits::deg) + LeftFront.rotation(vex::rotationUnits::deg) + RightBack.rotation(vex::rotationUnits::deg) + LeftBack.rotation(vex::rotationUnits::deg))/4;
+    }
+}
 void drive (bool reverse=false) {
   if (reverse) {
     RightFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
@@ -160,6 +171,12 @@ void turnLeft () {
   LeftBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
 }
 
+int fixDeadSpot () {
+  intakeClaws(500, vex::timeUnits::msec, true);
+  intakeClaws(500, vex::timeUnits::msec);
+  return (1);
+}
+
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -174,7 +191,7 @@ void turnLeft () {
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
-
+  
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
 }
@@ -197,6 +214,8 @@ void autonomous(void) {
   Intake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
   wait(200, vex::timeUnits::msec);
   Intake.stop();
+
+  turnRight(400, vex::timeUnits::msec);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -231,11 +250,10 @@ void usercontrol(void) {
      + primaryController.Axis1.value(), vex::velocityUnits::rpm);
 
     //These if statements are for the intakes. 
-    
     if (secondaryController.ButtonL1.pressing()) {
       //L1 intakes the "claws"
-      Intake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
-      
+      // Intake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+      intakeWheels();
     } 
     else if (secondaryController.ButtonL2.pressing()) {
       //L2 outtakes the "claws"
@@ -247,20 +265,21 @@ void usercontrol(void) {
       
     }
 
-    if (secondaryController.ButtonR1.pressing()) {
-      //L1 intakes the "wheels"
+    if (secondaryController.ButtonA.pressing()) {
+      vex::task Task = vex::task(fixDeadSpot);
+    } else if (secondaryController.ButtonR1.pressing()) {
+      //R1 intakes the "wheels"
       RightIntake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
       LeftIntake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
     } 
     else if (secondaryController.ButtonR2.pressing()) {
-      //L2 outtakes the "wheels"
+      //R2 outtakes the "wheels"
       RightIntake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
       LeftIntake.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
     }
     else {
      RightIntake.spin(vex::directionType::fwd, 0, vex::velocityUnits::rpm);
      LeftIntake.spin(vex::directionType::fwd, 0, vex::velocityUnits::rpm);
-      
     }
 
     wait(20, msec); // Sleep the task for a short amount of time to
