@@ -62,6 +62,20 @@ void moveBackward(int travelDistance){
       currentRotation = (RightFront.rotation(vex::rotationUnits::deg) + LeftFront.rotation(vex::rotationUnits::deg) + RightBack.rotation(vex::rotationUnits::deg) + LeftBack.rotation(vex::rotationUnits::deg))/4;
     }
 }
+
+void moveBackwardDist(int dist) {
+    float travelDistance = dist * (360/10.25);
+    int currentRotation = (RightFront.rotation(vex::rotationUnits::deg) + LeftFront.rotation(vex::rotationUnits::deg) + RightBack.rotation(vex::rotationUnits::deg) + LeftBack.rotation(vex::rotationUnits::deg))/4;
+    int goalRotation = currentRotation - travelDistance;
+    while(currentRotation > goalRotation){
+      RightFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+      RightBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+      LeftFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+      LeftBack.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+      currentRotation = (RightFront.rotation(vex::rotationUnits::deg) + LeftFront.rotation(vex::rotationUnits::deg) + RightBack.rotation(vex::rotationUnits::deg) + LeftBack.rotation(vex::rotationUnits::deg))/4;
+    }
+}
+
 void drive (bool reverse=false) {
   if (reverse) {
     RightFront.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
